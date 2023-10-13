@@ -1,0 +1,4 @@
+name: swustmctown
+version: '${project.version}'
+main: org.swustmc.Swustmctown
+api-version: '1.20'
