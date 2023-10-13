@@ -2,3 +2,13 @@ name: swustmctown
 version: '${project.version}'
 main: org.swustmc.Swustmctown
 api-version: '1.20'
+
+commands:
+  swustmctown:
+    description: SWUSTMCTown 插件的主命令
+    usage: /<command>
+
+permissions:
+  swustmctown.admin:
+    description: Admin commands access.
+    default: op
