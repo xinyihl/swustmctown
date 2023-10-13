@@ -1,82 +1,64 @@
 package org.swustmc;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.swustmc.Date.DataDeal;
+import org.swustmc.Model.Town;
+import org.swustmc.Utils.Utils;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.LogManager;
 
 public final class Swustmctown extends JavaPlugin {
-    private static Swustmctown plugin;
-    private static final String plugin_version = "0.0.1";
-    private boolean is_debug;
+    public static Swustmctown plugin;
+    public static final String plugin_version = "0.0.1";
+    public static boolean is_debug;
+    public static File dataFile;
+    public static YamlConfiguration dataFileM;
+    public static List<Town> towns;
+    public static Location defaultLocation;
+    public static World mainWorld;
 
     @Override
     public void onEnable() {
         plugin = this;
+        //加载配置文件使用案例 plugin.getConfig().getString("xxx")
         plugin.saveDefaultConfig();
         plugin.getConfig();
+        //加载数据文件
+        dataFile=new File(getDataFolder(),"data.yml");
+        if(!dataFile.exists()){
+            try {
+                dataFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        dataFileM =YamlConfiguration.loadConfiguration(dataFile);
+        //注册指令
         Objects.requireNonNull(plugin.getCommand("swustmctown")).setExecutor(this);
-
+        //注册tab补全
+        Objects.requireNonNull(plugin.getCommand("swustmctown")).setTabCompleter(this);
+        getLogger().info("SWUSTMCTown 已启动");
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        getLogger().info("SWUSTMCTown 已注销");
     }
 
-    // 执行指令
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        // sender = 发送命令的对象, 比如玩家/ 控制台/ 命令方块...
-        // command = 命令的内容
-        // label = 主命令, 不包括命令后面的参数
-        // args = 命令参数数组, 不保留主命令字符串
-
-        // 判断执行了此插件的哪个指令
-        if(label.equals("swustmctown")){
-            // 默认输出插件信息
-            if(args.length == 0|args[0].equals("help")){
-                sender.sendMessage("IpcEL > SWUSTMCTown: SWUSTMC小镇插件");
-                sender.sendMessage("  插件版本: "+plugin_version+", 配置版本: "+ plugin.getConfig().getInt("config-version"));
-                sender.sendMessage("  指令: ");
-                sender.sendMessage("    - /swustmctown help - 显示该信息");
-                sender.sendMessage("    - /swustmctown reload - 重载配置");
-                sender.sendMessage("    - /swustmctown debug - 调试模式");
-                return true;
-            }
-
-            // 重载配置
-            else if(args[0].equals("reload")&&sender.hasPermission("swustmctown.admin")){
-                plugin.reloadConfig();
-                sender.sendMessage("SWUSTMCTown 已完成重载");
-                return true;
-            }
-
-            // 调试模式
-            else if(args[0].equals("debug")&&sender.hasPermission("swustmctown.admin")){
-                is_debug = ! is_debug;
-                sender.sendMessage("SWUSTMCTown 调试模式: "+ is_debug);
-                return true;
-            }
-        }
-
-        // 返回 false 时, 玩家将收到命令不存在的错误
-        return false;
-    }
-
-    // 指令补全
-    @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        if(args.length == 1){
-            List<String> list = new ArrayList<>();
-            list.add("reload"); // 重载配置
-            list.add("debug"); // 调试模式
-            return list;
-        }
-        return null;
+    public void load() throws IOException {
+        mainWorld= Bukkit.getWorld(plugin.getConfig().getString("mainWorld"));
+        double[] xyz= Utils.stringToLocation(plugin.getConfig().getString("defaultLocation"));
+        defaultLocation=new Location(mainWorld,xyz[0],xyz[1],xyz[2]);
+        DataDeal.loadPlayerFromFile();
     }
 
     /*todo 玩家小镇
