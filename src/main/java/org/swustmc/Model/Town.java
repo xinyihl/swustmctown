@@ -8,6 +8,9 @@ import org.swustmc.Swustmctown;
 import java.io.IOException;
 import java.util.List;
 
+import static org.swustmc.Constants.BaseConstants.dataFileM;
+import static org.swustmc.Constants.BaseConstants.towns;
+
 public class Town {
     private List<String> citizens;
     private Location point;
@@ -20,16 +23,16 @@ public class Town {
         this.name=name;
         this.point=point;
         citizens.add(leaderName);
-        Swustmctown.towns.add(this);
+        towns.add(this);
     }
     public void addPlayer(String name) throws IOException {
         citizens.add(name);
-        Swustmctown.dataFileM.set(name+".playerName",citizens);
+        dataFileM.set(name+".playerName",citizens);
         DataDeal.saveConfig();
     }
     public void setPlayer(List<String> playerNames) throws IOException {
         citizens=playerNames;
-        Swustmctown.dataFileM.set(name+".playerName",citizens);
+        dataFileM.set(name+".playerName",citizens);
         try {
             DataDeal.saveConfig();
         } catch (IOException e) {

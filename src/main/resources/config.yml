@@ -1,5 +1,7 @@
 #配置文件版本
 config-version: 1
+#语言
+language: zh_cn
 #默认点
 defaultLLocation: 0,0,0
 #默认世界

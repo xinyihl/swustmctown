@@ -4,12 +4,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.swustmc.Swustmctown;
 import org.swustmc.Utils.TabList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.swustmc.Swustmctown.*;
+import static org.swustmc.Constants.BaseConstants.*;
 
 public class AdminCommad implements TabExecutor {
     @Override
@@ -22,8 +23,8 @@ public class AdminCommad implements TabExecutor {
         // 判断执行了此插件的哪个指令
         if(label.equals("swustmctown")){
             // 默认输出插件信息
-            if(args.length == 0|args[0].equals("help")){
-                sender.sendMessage("IpcEL > SWUSTMCTown: SWUSTMC小镇插件");
+            if(args.length == 0||args[0].equals("help")){
+                sender.sendMessage("SWUSTMC小镇插件");
                 sender.sendMessage("  插件版本: "+plugin_version+", 配置版本: "+ plugin.getConfig().getInt("config-version"));
                 sender.sendMessage("  指令: ");
                 sender.sendMessage("    - /swustmctown help - 显示该信息");
@@ -34,8 +35,7 @@ public class AdminCommad implements TabExecutor {
 
             // 重载配置
             else if(args[0].equals("reload")&&sender.hasPermission("swustmctown.admin")){
-                plugin.reloadConfig();
-                dataFileM = YamlConfiguration.loadConfiguration(dataFile);
+                Swustmctown.loadconfig();
                 sender.sendMessage("SWUSTMCTown 已完成重载");
                 return true;
             }
