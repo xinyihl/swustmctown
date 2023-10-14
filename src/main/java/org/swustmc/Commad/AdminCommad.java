@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.swustmc.Utils.TabList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +54,6 @@ public class AdminCommad implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        if(args.length == 1){
-            List<String> list = new ArrayList<>();
-            list.add("reload"); // 重载配置
-            list.add("debug"); // 调试模式
-            return list;
-        }
-        return null;
+        return TabList.returnList(args,args.length,sender);
     }
 }

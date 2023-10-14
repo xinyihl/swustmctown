@@ -3,9 +3,10 @@ package org.swustmc;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.swustmc.Commad.AdminCommad;
 import org.swustmc.Date.DataDeal;
 import org.swustmc.Model.Town;
 import org.swustmc.Utils.Utils;
@@ -14,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.LogManager;
 
 public final class Swustmctown extends JavaPlugin {
     public static Swustmctown plugin;
@@ -43,9 +43,7 @@ public final class Swustmctown extends JavaPlugin {
         }
         dataFileM =YamlConfiguration.loadConfiguration(dataFile);
         //注册指令
-        Objects.requireNonNull(plugin.getCommand("swustmctown")).setExecutor(this);
-        //注册tab补全
-        Objects.requireNonNull(plugin.getCommand("swustmctown")).setTabCompleter(this);
+        registercommand("swustmctown",new AdminCommad());
         getLogger().info("SWUSTMCTown 已启动");
     }
 
@@ -54,9 +52,16 @@ public final class Swustmctown extends JavaPlugin {
         getLogger().info("SWUSTMCTown 已注销");
     }
 
+    public void registercommand(String commandname,TabExecutor commandclass){
+        //注册指令
+        Objects.requireNonNull(plugin.getCommand(commandname)).setExecutor(commandclass);
+        //注册tab补全
+        Objects.requireNonNull(plugin.getCommand(commandname)).setTabCompleter(commandclass);
+    }
+
     public void load() throws IOException {
-        mainWorld= Bukkit.getWorld(plugin.getConfig().getString("mainWorld"));
-        double[] xyz= Utils.stringToLocation(plugin.getConfig().getString("defaultLocation"));
+        mainWorld= Bukkit.getWorld(plugin.getConfig().getString("mainWorld")+"");
+        double[] xyz= Utils.stringToLocation(plugin.getConfig().getString("defaultLocation")+"");
         defaultLocation=new Location(mainWorld,xyz[0],xyz[1],xyz[2]);
         DataDeal.loadPlayerFromFile();
     }
