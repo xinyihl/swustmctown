@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 
 public class Utils {
     public static double[] stringToLocation(String s){
-        double[] xyz = new double[2];
+        double[] xyz = new double[3];
         String[] ss=s.split(",");
         xyz[0]=Double.parseDouble(ss[0]);
         xyz[1]=Double.parseDouble(ss[1]);
@@ -42,16 +42,14 @@ public class Utils {
      *
      * @param sender     控制台
      * @param playerName 玩家名
-     * @param msg        提醒消息
      * @return Player
      * @since 3.2.1
      */
-    public static Player getOnlinePlayer(CommandSender sender, String playerName, String msg) {
+    public static Player getOnlinePlayer(CommandSender sender, String playerName) {
         if (StrUtil.isEmpty(playerName)) {
             return (Player) sender;
         }
-        Player player = getOnlinePlayer(playerName);
-        return player;
+        return getOnlinePlayer(playerName);
     }
 
     /**

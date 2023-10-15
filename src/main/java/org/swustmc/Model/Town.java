@@ -11,10 +11,10 @@ import static org.swustmc.Constants.BaseConstants.TOWNS;
 
 public class Town {
     private List<String> citizens;
-    private Location point;
-    private  String name;
-    private String displayName;
-    private String leaderName;
+    private Location point; //小镇坐标
+    private String name; //yml存储键名
+    private String displayName; //显示名称
+    private String leaderName; //镇长
     public Town(String leaderName,String name,String displayName,Location point){
         this.leaderName=leaderName;
         this.displayName=displayName;
@@ -28,14 +28,13 @@ public class Town {
         YML_DATAFILE.set(name+".playerName",citizens);
         DataDeal.saveConfig();
     }
+    public void removePlayer(String name) throws IOException {
+        //todo removePlayer
+    }
     public void setPlayer(List<String> playerNames) throws IOException {
         citizens=playerNames;
         YML_DATAFILE.set(name+".playerName",citizens);
-        try {
-            DataDeal.saveConfig();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        DataDeal.saveConfig();
     }
 
     public List<String> getCitizens() {

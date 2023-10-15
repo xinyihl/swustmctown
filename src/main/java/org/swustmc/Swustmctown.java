@@ -1,6 +1,5 @@
 package org.swustmc;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.TabExecutor;
@@ -26,7 +25,7 @@ public final class Swustmctown extends JavaPlugin {
         //加载配置、语言、数据文件、papi变量
         initialize();
         //注册指令
-        register_command("swustmctown",new AdminCommad());
+        registerCommand("swustmctown",new AdminCommad());
         getLogger().info("SWUSTMCTown 已启动");
     }
 
@@ -37,7 +36,7 @@ public final class Swustmctown extends JavaPlugin {
     }
 
     //注册插件命令
-    public void register_command(String command_name,TabExecutor command_class){
+    public void registerCommand(String command_name,TabExecutor command_class){
         //注册指令
         Objects.requireNonNull(PLUGIN.getCommand(command_name)).setExecutor(command_class);
         //注册tab补全
@@ -52,7 +51,7 @@ public final class Swustmctown extends JavaPlugin {
     }
 
     //读取yml文件，不存在则从jar里保存
-    public static YamlConfiguration load(String child) {
+    public static YamlConfiguration loadYaml(String child) {
         File file = new File(PLUGIN.getDataFolder(), child);
         if (!(file.exists())) {
             PLUGIN.saveResource(child, false);
@@ -70,10 +69,10 @@ public final class Swustmctown extends JavaPlugin {
         PLUGIN.saveDefaultConfig();
         CONFIG = PLUGIN.getConfig();
         //加载语音文件 使用案例 Utils.getLangMsg("NORMAL")
-        LANG_CONFIG = load("languages/" + CONFIG.getString("language") + ".yml");
+        LANG_CONFIG = loadYaml("languages/" + CONFIG.getString("language") + ".yml");
         LangMsgApi.initLangMsg(LANG_CONFIG);
         //加载数据文件
-        YML_DATAFILE =load("data.yml");
+        YML_DATAFILE =loadYaml("data.yml");
     }
 
     public static void reinitialize(){
@@ -82,15 +81,15 @@ public final class Swustmctown extends JavaPlugin {
             se.register();
         }
         CONFIG = PLUGIN.getConfig();
-        LANG_CONFIG = load("languages/" + CONFIG.getString("language") + ".yml");
+        LANG_CONFIG = loadYaml("languages/" + CONFIG.getString("language") + ".yml");
         LangMsgApi.initLangMsg(LANG_CONFIG);
-        YML_DATAFILE =load("data.yml");
+        YML_DATAFILE =loadYaml("data.yml");
     }
 
-    /*todo 玩家小镇
-      todo 镇长支持设置小镇的bluemap的标记、小镇称号、小镇镇名
-      todo PlaceholderAPI变量 （小镇称号/小镇镇名）
-      todo 支持玩家添加全服bluemap标记
+    /* todo 玩家小镇
+     * todo 镇长支持设置小镇的bluemap的标记、小镇称号、小镇镇名
+     * todo PlaceholderAPI变量 （小镇称号/小镇镇名）
+     * todo 支持玩家添加全服bluemap标记
      */
 
 }

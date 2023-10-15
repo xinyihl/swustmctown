@@ -14,7 +14,7 @@ public enum TabList {
     private String bef;//上个参数的内容
     private int[] num;//这个参数可以出现的位置
 
-    private TabList(List<String> list,int befPos, String bef, int[] num){
+    TabList(List<String> list,int befPos, String bef, int[] num){
         this.list = list;
         this.befPos = befPos;
         this.bef = bef;
