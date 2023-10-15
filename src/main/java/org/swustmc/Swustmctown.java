@@ -1,5 +1,6 @@
 package org.swustmc;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.TabExecutor;
@@ -18,6 +19,7 @@ import java.util.Objects;
 import static org.swustmc.Constants.BaseConstants.*;
 
 public final class Swustmctown extends JavaPlugin {
+    private static final SwustmcExpansion se = new SwustmcExpansion(PLUGIN);
     @Override
     public void onEnable() {
         PLUGIN = this;
@@ -30,9 +32,11 @@ public final class Swustmctown extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        se.unregister();
         getLogger().info("SWUSTMCTown 已注销");
     }
 
+    //注册插件命令
     public void register_command(String command_name,TabExecutor command_class){
         //注册指令
         Objects.requireNonNull(PLUGIN.getCommand(command_name)).setExecutor(command_class);
@@ -47,6 +51,7 @@ public final class Swustmctown extends JavaPlugin {
         DataDeal.loadPlayerFromFile();
     }
 
+    //读取yml文件，不存在则从jar里保存
     public static YamlConfiguration load(String child) {
         File file = new File(PLUGIN.getDataFolder(), child);
         if (!(file.exists())) {
@@ -55,19 +60,30 @@ public final class Swustmctown extends JavaPlugin {
         return YamlConfiguration.loadConfiguration(file);
     }
 
+    //配置、语言、数据文件、papi变量初始化
     public static void initialize(){
+        //加载PlaceholderAPI 使用案例 PlaceholderAPI.setPlaceholders(player,"%player_name%");
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            SwustmcExpansion se = new SwustmcExpansion(PLUGIN);
-            se.unregister();
             se.register();
         }
-        //加载配置文件使用案例 CONFIG.getString("xxx")
+        //加载配置文件 使用案例 CONFIG.getString("xxx")
         PLUGIN.saveDefaultConfig();
         CONFIG = PLUGIN.getConfig();
-        //加载语音文件使用案例 Utils.getLangMsg("NORMAL")
+        //加载语音文件 使用案例 Utils.getLangMsg("NORMAL")
         LANG_CONFIG = load("languages/" + CONFIG.getString("language") + ".yml");
         LangMsgApi.initLangMsg(LANG_CONFIG);
         //加载数据文件
+        YML_DATAFILE =load("data.yml");
+    }
+
+    public static void reinitialize(){
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            se.unregister();
+            se.register();
+        }
+        CONFIG = PLUGIN.getConfig();
+        LANG_CONFIG = load("languages/" + CONFIG.getString("language") + ".yml");
+        LangMsgApi.initLangMsg(LANG_CONFIG);
         YML_DATAFILE =load("data.yml");
     }
 

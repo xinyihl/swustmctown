@@ -33,7 +33,7 @@ public class AdminCommad implements TabExecutor {
 
             // 重载配置
             else if(args[0].equals("reload")&&sender.hasPermission("swustmctown.admin")){
-                Swustmctown.initialize();
+                Swustmctown.reinitialize();
                 sender.sendMessage("SWUSTMCTown 已完成重载");
                 return true;
             }
