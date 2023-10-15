@@ -1,15 +1,13 @@
 package org.swustmc.Model;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.swustmc.Date.DataDeal;
-import org.swustmc.Swustmctown;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.swustmc.Constants.BaseConstants.dataFileM;
-import static org.swustmc.Constants.BaseConstants.towns;
+import static org.swustmc.Constants.BaseConstants.YML_DATAFILE;
+import static org.swustmc.Constants.BaseConstants.TOWNS;
 
 public class Town {
     private List<String> citizens;
@@ -23,16 +21,16 @@ public class Town {
         this.name=name;
         this.point=point;
         citizens.add(leaderName);
-        towns.add(this);
+        TOWNS.add(this);
     }
     public void addPlayer(String name) throws IOException {
         citizens.add(name);
-        dataFileM.set(name+".playerName",citizens);
+        YML_DATAFILE.set(name+".playerName",citizens);
         DataDeal.saveConfig();
     }
     public void setPlayer(List<String> playerNames) throws IOException {
         citizens=playerNames;
-        dataFileM.set(name+".playerName",citizens);
+        YML_DATAFILE.set(name+".playerName",citizens);
         try {
             DataDeal.saveConfig();
         } catch (IOException e) {
