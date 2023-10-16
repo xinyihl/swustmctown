@@ -5,19 +5,22 @@ import org.bukkit.Location;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.swustmc.Commad.AdminCommad;
-import org.swustmc.Date.DataDeal;
+import org.swustmc.Commad.AdminCommand;
+import org.swustmc.Data.DataDeal;
+import org.swustmc.Model.Town;
 import org.swustmc.Utils.Utils;
 import org.swustmc.api.LangMsgApi;
 import org.swustmc.api.SwustmcExpansion;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import static org.swustmc.Constants.BaseConstants.*;
 
 public final class Swustmctown extends JavaPlugin {
+    public static List<Town> towns;
     private static final SwustmcExpansion se = new SwustmcExpansion(PLUGIN);
     @Override
     public void onEnable() {
@@ -25,7 +28,7 @@ public final class Swustmctown extends JavaPlugin {
         //加载配置、语言、数据文件、papi变量
         initialize();
         //注册指令
-        registerCommand("swustmctown",new AdminCommad());
+        registerCommand("swustmctown",new AdminCommand());
         getLogger().info("SWUSTMCTown 已启动");
     }
 
@@ -47,6 +50,7 @@ public final class Swustmctown extends JavaPlugin {
         MAIN_WORLD = Bukkit.getWorld(CONFIG.getString("mainWorld")+"");
         double[] xyz= Utils.stringToLocation(CONFIG.getString("defaultLocation")+"");
         DEFAULT_LOCATION =new Location(MAIN_WORLD,xyz[0],xyz[1],xyz[2]);
+        PRE=getConfig().getString("pre").replace("§","&");
         DataDeal.loadPlayerFromFile();
     }
 

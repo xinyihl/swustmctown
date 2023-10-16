@@ -1,40 +1,57 @@
 package org.swustmc.Model;
 
 import org.bukkit.Location;
-import org.swustmc.Date.DataDeal;
+import org.swustmc.Constants.BaseConstants;
+import org.swustmc.Data.DataDeal;
+import org.swustmc.Swustmctown;
+
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.swustmc.Constants.BaseConstants.YML_DATAFILE;
-import static org.swustmc.Constants.BaseConstants.TOWNS;
-
 public class Town {
     private List<String> citizens;
-    private Location point; //小镇坐标
-    private String name; //yml存储键名
-    private String displayName; //显示名称
-    private String leaderName; //镇长
+    private Location point;
+    private  String name;
+    private String displayName;
+    private String leaderName;
     public Town(String leaderName,String name,String displayName,Location point){
         this.leaderName=leaderName;
         this.displayName=displayName;
         this.name=name;
         this.point=point;
         citizens.add(leaderName);
-        TOWNS.add(this);
+        Swustmctown.towns.add(this);
     }
     public void addPlayer(String name) throws IOException {
         citizens.add(name);
-        YML_DATAFILE.set(name+".playerName",citizens);
+        BaseConstants.YML_DATAFILE.set(name+".playerName",citizens);
         DataDeal.saveConfig();
-    }
-    public void removePlayer(String name) throws IOException {
-        //todo removePlayer
     }
     public void setPlayer(List<String> playerNames) throws IOException {
         citizens=playerNames;
-        YML_DATAFILE.set(name+".playerName",citizens);
-        DataDeal.saveConfig();
+        BaseConstants.YML_DATAFILE.set(name+".playerName",citizens);
+        try {
+            DataDeal.saveConfig();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setPoint(Location point) {
+        this.point = point;
+    }
+
+    public static Town getTownByLeader(String leaderName){
+        if(!isLeader(leaderName)){
+            return null;
+        }
+        for(Town town:Swustmctown.towns){
+            if(town.getLeaderName().equals(leaderName)){
+                return town;
+            }
+        }
+        return null;
     }
 
     public List<String> getCitizens() {
@@ -55,5 +72,30 @@ public class Town {
 
     public String getLeaderName() {
         return leaderName;
+    }
+    public static boolean isLeader(String name){
+        for(Town town: Swustmctown.towns){
+            if(town.getLeaderName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }public static boolean isPlayer(String name){
+        for(Town town:Swustmctown.towns){
+            for(String playerName:town.getCitizens()){
+                if(playerName.equals(name)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static boolean isExist(String townName){
+        for(Town town:Swustmctown.towns){
+            if(town.getName().equals(townName)){
+                return true;
+            }
+        }
+        return false;
     }
 }

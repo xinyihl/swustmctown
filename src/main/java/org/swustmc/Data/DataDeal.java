@@ -1,4 +1,4 @@
-package org.swustmc.Date;
+package org.swustmc.Data;
 
 import org.bukkit.Location;
 import org.swustmc.Model.Town;

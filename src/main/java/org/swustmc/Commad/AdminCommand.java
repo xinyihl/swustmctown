@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.swustmc.Constants.BaseConstants.*;
 
-public class AdminCommad implements TabExecutor {
+public class AdminCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         // sender = 发送命令的对象, 比如玩家/ 控制台/ 命令方块...

@@ -13,6 +13,7 @@ import java.util.List;
 
 public abstract class BaseConstants {
     public static YamlConfiguration COLOR_CONFIG;
+
     public static YamlConfiguration LANG_CONFIG;
     public static Swustmctown PLUGIN;
     public static FileConfiguration CONFIG;
@@ -20,9 +21,10 @@ public abstract class BaseConstants {
     public static boolean DEBUG;
     public static File DATAFILE;
     public static YamlConfiguration YML_DATAFILE;
-    public static List<Town> TOWNS;
+
     public static Location DEFAULT_LOCATION;
     public static World MAIN_WORLD;
+    public static String PRE = "";
     public final static Pattern NUMERIC = Pattern.compile("^-?\\d+(\\.\\d+)?$");
     public static final Pattern BRACKET_NUMBER = Pattern.compile("\\[(\\d+)\\]");
     public final static Pattern RPG_PATTERN = Pattern.compile("%+[a-zA-Z0-9]+%");

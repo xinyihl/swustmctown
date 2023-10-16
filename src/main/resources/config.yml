@@ -6,3 +6,5 @@ language: zh_cn
 defaultLLocation: 0,0,0
 #默认世界
 mainWorldName: world
+#提示前缀
+pre: &6[SWUST]&8
