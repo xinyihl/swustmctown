@@ -10,9 +10,11 @@ import org.swustmc.Data.DataDeal;
 import org.swustmc.Utils.Utils;
 import org.swustmc.api.LangMsgApi;
 import org.swustmc.api.SwustmcExpansion;
+import org.swustmc.invitation.Invitation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +22,7 @@ import static org.swustmc.BaseConstants.*;
 
 public final class Swustmctown extends JavaPlugin {
     public static List<Town> towns;
+    public static List<Invitation> invatations;
     private static final SwustmcExpansion se = new SwustmcExpansion(PLUGIN);
     @Override
     public void onEnable() {

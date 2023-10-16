@@ -57,6 +57,18 @@ public class Town {
         }
         return null;
     }
+    public static Town getTownByPlayer(String playerName){
+        if(!isPlayer(playerName)){
+            return null;
+        }
+        for(Town town:Swustmctown.towns){
+            if(town.getCitizens().contains(playerName)){
+                return town;
+            }
+        }
+        return null;
+    }
+
 
     public List<String> getCitizens() {
         return citizens;
@@ -73,6 +85,7 @@ public class Town {
     public String getDisplayName() {
         return displayName;
     }
+
 
     public String getLeaderName() {
         return leaderName;

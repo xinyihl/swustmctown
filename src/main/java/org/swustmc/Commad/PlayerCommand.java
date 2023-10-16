@@ -7,8 +7,10 @@ import org.bukkit.entity.Player;
 import org.swustmc.BaseConstants;
 import org.swustmc.Town;
 import org.swustmc.Swustmctown;
+import org.swustmc.invitation.Invitation;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerCommand implements TabExecutor {
@@ -87,6 +89,70 @@ public class PlayerCommand implements TabExecutor {
                     return true;
                 }
 
+            }else if(args[0].equalsIgnoreCase("invite")) {
+                if (!sender.hasPermission("swustmc.invite")) {
+                    sender.sendMessage(BaseConstants.PRE + "你没有使用该指令的权限");
+                    return false;
+                } else if (!Town.isLeader(sender.getName())) {
+                    sender.sendMessage(BaseConstants.PRE + "你不是小镇领导者,不能使用这个指令");
+                    return false;
+                }else{
+                    new Invitation(Town.getTownByLeader(sender.getName()), args[1]);
+                    sender.sendMessage(BaseConstants.PRE+"邀请已发送");
+                    return true;
+                }
+            }else if(args[0].equalsIgnoreCase("info")){
+                List<String> l= new ArrayList<String>();
+                l.add(BaseConstants.PRE+"=================================");
+                for(Town town:Invitation.getTownsByPlayer(sender.getName())){
+                    l.add(BaseConstants.PRE+"小镇名称"+town.getName()+"    小镇镇长"+town.getLeaderName());
+                }
+                l.add(BaseConstants.PRE+"=================================");
+                return true;
+            }else if(args[0].equalsIgnoreCase("accept")){
+                if (!sender.hasPermission("swustmc.accept")) {
+                    sender.sendMessage(BaseConstants.PRE + "你没有使用该指令的权限");
+                    return false;
+                } else if(Town.isPlayer(sender.getName())){
+                    sender.sendMessage(BaseConstants.PRE+"你已经加入了一个小镇,请退出后再进入其他小镇");
+                    return false;
+                }
+                String townName=args[1];
+                boolean has=false;
+                Invitation invitation = null;
+                for(Invitation inv:Swustmctown.invatations){
+                    if(inv.getInvitor().getName().equalsIgnoreCase(townName)){
+                        has=true;
+                        invitation=inv;
+                        try {
+                            invitation.accept();
+                            sender.sendMessage(BaseConstants.PRE+"你成功加入该小镇");
+                            return true;
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+                if(!has){
+                    sender.sendMessage(BaseConstants.PRE+"你没有接收到这个小镇的邀请");
+                    return false;
+                }
+            } else if (args[0].equalsIgnoreCase("quit")) {
+                if(!Town.isPlayer(sender.getName())){
+                    sender.sendMessage(BaseConstants.PRE+"你没有加入一个小镇");
+                    return false;
+                }else{
+                    if(Town.isLeader(sender.getName())){
+                        Swustmctown.towns.remove(Town.getTownByLeader(sender.getName()));
+                        sender.sendMessage(BaseConstants.PRE+"你已经成功解散这个小镇");
+                        return true;
+                    }else{
+                        Town town =Town.getTownByPlayer(sender.getName());
+                        town.getCitizens().remove(sender.getName());
+                        sender.sendMessage(BaseConstants.PRE+"你已经成功退出该小镇");
+                        return true;
+                    }
+                }
             }
         }
         return false;
