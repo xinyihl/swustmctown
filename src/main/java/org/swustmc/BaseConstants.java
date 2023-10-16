@@ -1,15 +1,13 @@
-package org.swustmc.Constants;
+package org.swustmc;
 
 import org.bukkit.Location;
 import org.bukkit.World;
 import java.util.regex.Pattern;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.swustmc.Model.Town;
 import org.swustmc.Swustmctown;
 
 import java.io.File;
-import java.util.List;
 
 public abstract class BaseConstants {
     public static YamlConfiguration COLOR_CONFIG;
@@ -20,7 +18,9 @@ public abstract class BaseConstants {
     public static final String PLUGIN_VERSION = "0.0.1";
     public static boolean DEBUG;
     public static File DATAFILE;
+    public static File INVATATIONFILE;
     public static YamlConfiguration YML_DATAFILE;
+    public static YamlConfiguration YML_INVATATIONFile;
 
     public static Location DEFAULT_LOCATION;
     public static World MAIN_WORLD;

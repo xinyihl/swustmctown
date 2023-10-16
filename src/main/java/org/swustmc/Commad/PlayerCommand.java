@@ -1,12 +1,11 @@
 package org.swustmc.Commad;
 
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.swustmc.Constants.BaseConstants;
-import org.swustmc.Model.Town;
+import org.swustmc.BaseConstants;
+import org.swustmc.Town;
 import org.swustmc.Swustmctown;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ public class PlayerCommand implements TabExecutor {
     /*
      * swustmctown create [townName] [disPlayName] 创建小镇,默认值为defaultLoc
      * swustmctown setloc 设置地点
-     * BaseConstants.PREfix [playerPrefix] 玩家前缀
+     * swustmctown prefix [playerPrefix] 玩家前缀
      * swustmctown invite [playerName]  邀请玩家加入自己小镇
      * swustmctown accept 同意邀请
      * swustmctown quit 退出/解散队伍
@@ -59,7 +58,7 @@ public class PlayerCommand implements TabExecutor {
                         return true;
                     }
                 }
-            }else if(args[1].equalsIgnoreCase("setLoc")){
+            }else if(args[0].equalsIgnoreCase("setLoc")){
                 if(!sender.hasPermission("swustmc.setloc")){
                     sender.sendMessage(BaseConstants.PRE+"你没有使用该指令的权限");
                     return false;
@@ -72,6 +71,22 @@ public class PlayerCommand implements TabExecutor {
                     sender.sendMessage(BaseConstants.PRE+"成功设置地点");
                     return true;
                 }
+            }else if(args[0].equalsIgnoreCase("prefix")){
+                if(!sender.hasPermission("swustmc.prefix")){
+                    sender.sendMessage(BaseConstants.PRE+"你没有使用该指令的权限");
+                    return false;
+                }else if(!Town.isLeader(sender.getName())){
+                    sender.sendMessage(BaseConstants.PRE+"你不是小镇领导者,不能使用这个指令");
+                    return false;
+                }else if((!(args[1].length()<=10))){
+                    sender.sendMessage(BaseConstants.PRE+"前缀长度不得高于10个字符串");
+                    return false;
+                }else {
+                    Town.getTownByLeader(sender.getName()).setPrefix(args[1]);
+                    sender.sendMessage(BaseConstants.PRE+"成功设置前缀");
+                    return true;
+                }
+
             }
         }
         return false;

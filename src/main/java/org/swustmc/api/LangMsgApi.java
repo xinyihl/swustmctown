@@ -1,7 +1,7 @@
 package org.swustmc.api;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.swustmc.Constants.BaseConstants;
+import org.swustmc.BaseConstants;
 
 public class LangMsgApi {
 

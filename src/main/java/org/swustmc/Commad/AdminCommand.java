@@ -8,7 +8,7 @@ import org.swustmc.Utils.TabList;
 
 import java.util.List;
 
-import static org.swustmc.Constants.BaseConstants.*;
+import static org.swustmc.BaseConstants.*;
 
 public class AdminCommand implements TabExecutor {
     @Override

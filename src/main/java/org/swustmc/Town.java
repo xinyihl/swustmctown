@@ -1,9 +1,7 @@
-package org.swustmc.Model;
+package org.swustmc;
 
 import org.bukkit.Location;
-import org.swustmc.Constants.BaseConstants;
 import org.swustmc.Data.DataDeal;
-import org.swustmc.Swustmctown;
 
 
 import java.io.IOException;
@@ -15,7 +13,13 @@ public class Town {
     private  String name;
     private String displayName;
     private String leaderName;
-    public Town(String leaderName,String name,String displayName,Location point){
+    private  String prefix="";
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public Town(String leaderName, String name, String displayName, Location point){
         this.leaderName=leaderName;
         this.displayName=displayName;
         this.name=name;

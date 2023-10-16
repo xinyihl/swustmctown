@@ -4,7 +4,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.swustmc.Swustmctown;
 
-import static org.swustmc.Constants.BaseConstants.*;
+import static org.swustmc.BaseConstants.*;
 
 public class SwustmcExpansion extends PlaceholderExpansion {
     private Swustmctown plugin;

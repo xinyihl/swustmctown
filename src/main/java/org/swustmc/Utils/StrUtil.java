@@ -1,6 +1,6 @@
 package org.swustmc.Utils;
 
-import org.swustmc.Constants.BaseConstants;
+import org.swustmc.BaseConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;

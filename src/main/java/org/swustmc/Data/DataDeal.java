@@ -1,12 +1,12 @@
 package org.swustmc.Data;
 
 import org.bukkit.Location;
-import org.swustmc.Model.Town;
+import org.swustmc.Town;
 import org.swustmc.Utils.Utils;
 
 import java.io.IOException;
 
-import static org.swustmc.Constants.BaseConstants.*;
+import static org.swustmc.BaseConstants.*;
 
 public class DataDeal {
     public static void loadPlayerFromFile() throws IOException {

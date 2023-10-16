@@ -7,7 +7,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.swustmc.Commad.AdminCommand;
 import org.swustmc.Data.DataDeal;
-import org.swustmc.Model.Town;
 import org.swustmc.Utils.Utils;
 import org.swustmc.api.LangMsgApi;
 import org.swustmc.api.SwustmcExpansion;
@@ -17,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-import static org.swustmc.Constants.BaseConstants.*;
+import static org.swustmc.BaseConstants.*;
 
 public final class Swustmctown extends JavaPlugin {
     public static List<Town> towns;
@@ -77,6 +76,7 @@ public final class Swustmctown extends JavaPlugin {
         LangMsgApi.initLangMsg(LANG_CONFIG);
         //加载数据文件
         YML_DATAFILE =loadYaml("data.yml");
+        YML_INVATATIONFile=loadYaml("invatations.yml");
     }
 
     public static void reinitialize(){
@@ -88,6 +88,7 @@ public final class Swustmctown extends JavaPlugin {
         LANG_CONFIG = loadYaml("languages/" + CONFIG.getString("language") + ".yml");
         LangMsgApi.initLangMsg(LANG_CONFIG);
         YML_DATAFILE =loadYaml("data.yml");
+        YML_INVATATIONFile=loadYaml("invatations.yml");
     }
 
     /* todo 玩家小镇

@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.swustmc.Constants.BaseConstants;
+import org.swustmc.BaseConstants;
 
 import java.util.ArrayList;
 import java.util.List;
