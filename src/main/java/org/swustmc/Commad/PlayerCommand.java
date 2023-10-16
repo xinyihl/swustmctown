@@ -71,6 +71,7 @@ public class PlayerCommand implements TabExecutor {
                     Town town=Town.getTownByLeader(sender.getName());
                     town.setPoint(sender.getLocation());
                     sender.sendMessage(BaseConstants.PRE+"成功设置地点");
+
                     return true;
                 }
             }else if(args[0].equalsIgnoreCase("prefix")){
