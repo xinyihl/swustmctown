@@ -1,45 +1,54 @@
 package org.swustmc;
 
 import org.bukkit.Location;
-import org.swustmc.Data.DataDeal;
-
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Town {
-    private List<String> citizens;
+    private List<String> citizens=new ArrayList<String>();
     private Location point;
     private  String name;
     private String displayName;
     private String leaderName;
     private  String prefix="";
 
+    public String getPrefix() {
+        return prefix;
+    }
+
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
 
-    public Town(String leaderName, String name, String displayName, Location point){
+    public Town(String leaderName, String name, String displayName){
         this.leaderName=leaderName;
         this.displayName=displayName;
         this.name=name;
-        this.point=point;
+        this.point=BaseConstants.DEFAULT_LOCATION;
+        System.out.println(point);
+        citizens.add(leaderName);
+        Swustmctown.towns.add(this);
+    }
+    public Town(String leaderName, String name, String displayName,Location loc){
+        this.leaderName=leaderName;
+        this.displayName=displayName;
+        this.name=name;
+        this.point=loc;
         citizens.add(leaderName);
         Swustmctown.towns.add(this);
     }
     public void addPlayer(String name) throws IOException {
-        citizens.add(name);
-        BaseConstants.YML_DATAFILE.set(name+".playerName",citizens);
-        DataDeal.saveConfig();
+
+        if(!citizens.contains(name)){
+            citizens.add(name);
+        }
+
     }
     public void setPlayer(List<String> playerNames) throws IOException {
         citizens=playerNames;
-        BaseConstants.YML_DATAFILE.set(name+".playerName",citizens);
-        try {
-            DataDeal.saveConfig();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 
     public void setPoint(Location point) {
@@ -106,6 +115,12 @@ public class Town {
             }
         }
         return false;
+    }
+    public static Town getTownByName(String name){
+        for(Town town:Swustmctown.towns){
+            return town;
+        }
+        return null;
     }
     public static boolean isExist(String townName){
         for(Town town:Swustmctown.towns){

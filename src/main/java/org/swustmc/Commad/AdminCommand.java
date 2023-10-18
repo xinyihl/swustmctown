@@ -6,6 +6,7 @@ import org.bukkit.command.TabExecutor;
 import org.swustmc.Swustmctown;
 import org.swustmc.Utils.TabList;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.swustmc.BaseConstants.*;
@@ -21,7 +22,7 @@ public class AdminCommand implements TabExecutor {
         // 判断执行了此插件的哪个指令
         if(label.equals("swustmctown")){
             // 默认输出插件信息
-            if(args.length == 0||args[0].equals("help")){
+            if(args.length == 0 || args[0].equals("help")){
                 sender.sendMessage("SWUSTMC小镇插件");
                 sender.sendMessage("  插件版本: "+ PLUGIN_VERSION +", 配置版本: "+ PLUGIN.getConfig().getInt("config-version"));
                 sender.sendMessage("  指令: ");
@@ -32,14 +33,18 @@ public class AdminCommand implements TabExecutor {
             }
 
             // 重载配置
-            else if(args[0].equals("reload")&&sender.hasPermission("swustmctown.admin")){
-                Swustmctown.reinitialize();
+            else if(args[0].equals("reload") && sender.hasPermission("swustmctown.admin")){
+                try {
+                    Swustmctown.reinitialize();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 sender.sendMessage("SWUSTMCTown 已完成重载");
                 return true;
             }
 
             // 调试模式
-            else if(args[0].equals("debug")&&sender.hasPermission("swustmctown.admin")){
+            else if(args[0].equals("debug") && sender.hasPermission("swustmctown.admin")){
                 DEBUG = !DEBUG;
                 sender.sendMessage("SWUSTMCTown 调试模式: "+ DEBUG);
                 return true;

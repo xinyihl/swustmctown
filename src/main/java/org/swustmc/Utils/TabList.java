@@ -2,13 +2,12 @@ package org.swustmc.Utils;
 
 import org.bukkit.command.CommandSender;
 
-import java.util.*;
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public enum TabList {
-    FIRST(Arrays.asList("help","reload","debug"),0,null,new int[]{1});
+    FIRST(Arrays.asList("help","reload","debug","create","setLoc","prefix","invite","info","accept","quit"),0,null,new int[]{1});
     private List<String> list;//返回的List
     private int befPos;//识别的上个参数的位置
     private String bef;//上个参数的内容

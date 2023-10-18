@@ -5,8 +5,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.swustmc.BaseConstants;
-import org.swustmc.Town;
 import org.swustmc.Swustmctown;
+import org.swustmc.Town;
+import org.swustmc.Utils.TabList;
 import org.swustmc.invitation.Invitation;
 
 import java.io.IOException;
@@ -19,8 +20,12 @@ public class PlayerCommand implements TabExecutor {
      * swustmctown setloc 设置地点
      * swustmctown prefix [playerPrefix] 玩家前缀
      * swustmctown invite [playerName]  邀请玩家加入自己小镇
-     * swustmctown accept 同意邀请
+     * swustmctown accept [townName]同意邀请
      * swustmctown quit 退出/解散队伍
+     * swustmctown info 查看邀请自己进入小镇的小镇列表
+     * TODO
+     *  进入MC的消息留言
+     *  BlueMap兼容
      *     * */
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
@@ -48,7 +53,7 @@ public class PlayerCommand implements TabExecutor {
                         return false;
                     }else{
                         String displayName=args[2];
-                        Town town=new Town(sender.getName(),args[1],args[2],BaseConstants.DEFAULT_LOCATION);
+                        Town town=new Town(sender.getName(),args[1],args[2]);
                         Swustmctown.towns.add(town);
                         try {
                             town.addPlayer(sender.getName());
@@ -56,7 +61,7 @@ public class PlayerCommand implements TabExecutor {
                             throw new RuntimeException(e);
                         }
                         sender.sendMessage(BaseConstants.PRE+"创建成功一个名为"+args[1]+"的小镇,你可以使用/swustmctown setLoc指令设置现在所处位置为小镇标记点");
-                        sender.sendMessage(BaseConstants.PRE+"你可以使用/BaseConstants.PREfix [玩家前缀名] 进行设置小镇成员前缀");
+                        sender.sendMessage(BaseConstants.PRE+"你可以使用/swustmctown prefix [玩家前缀名] 进行设置小镇成员前缀");
                         return true;
                     }
                 }
@@ -104,11 +109,15 @@ public class PlayerCommand implements TabExecutor {
                 }
             }else if(args[0].equalsIgnoreCase("info")){
                 List<String> l= new ArrayList<String>();
-                l.add(BaseConstants.PRE+"=================================");
+                l.add(BaseConstants.PRE+"=================================\n");
                 for(Town town:Invitation.getTownsByPlayer(sender.getName())){
-                    l.add(BaseConstants.PRE+"小镇名称"+town.getName()+"    小镇镇长"+town.getLeaderName());
+
+                    l.add(BaseConstants.PRE+"小镇名称"+town.getName()+"    小镇镇长"+town.getLeaderName()+"\n");
                 }
                 l.add(BaseConstants.PRE+"=================================");
+                for(String str:l){
+                    sender.sendMessage(str);
+                }
                 return true;
             }else if(args[0].equalsIgnoreCase("accept")){
                 if (!sender.hasPermission("swustmc.accept")) {
@@ -161,6 +170,6 @@ public class PlayerCommand implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
-        return null;
+        return TabList.returnList(strings,strings.length,commandSender);
     }
 }

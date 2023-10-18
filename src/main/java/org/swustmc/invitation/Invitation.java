@@ -1,9 +1,5 @@
 package org.swustmc.invitation;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.swustmc.BaseConstants;
-import org.swustmc.Data.InvatationDeal;
 import org.swustmc.Swustmctown;
 import org.swustmc.Town;
 
@@ -30,11 +26,12 @@ public class Invitation {
         for(Invitation inv:Swustmctown.invatations){
             if(inv.getInvitor().getName().equalsIgnoreCase(responsor)){
                 has=true;
+                System.out.println("已经拥有");
             }
         }
         if(!has){
-            invitor = invitor;
-            responsor = responsor;
+            this.invitor = invitor;
+            this.responsor = responsor;
             Swustmctown.invatations.add(this);
         }
 

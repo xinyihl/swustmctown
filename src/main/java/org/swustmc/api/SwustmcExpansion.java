@@ -3,8 +3,9 @@ package org.swustmc.api;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.swustmc.Swustmctown;
+import org.swustmc.Town;
 
-import static org.swustmc.BaseConstants.*;
+import static org.swustmc.BaseConstants.PLUGIN_VERSION;
 
 public class SwustmcExpansion extends PlaceholderExpansion {
     private Swustmctown plugin;
@@ -34,12 +35,19 @@ public class SwustmcExpansion extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
-        if(params.equalsIgnoreCase("placeholder1")){
-            return CONFIG.getString("placeholders.placeholder1", "default1");
+        if(params.equalsIgnoreCase("town_name")){
+            if(Town.isPlayer(player.getName())){
+                return Town.getTownByPlayer(player.getName()).getDisplayName();
+            }else{
+                return "自由人";
+            }
         }
-
-        if(params.equalsIgnoreCase("placeholder2")) {
-            return CONFIG.getString("placeholders.placeholder2", "default2");
+        if(params.equalsIgnoreCase("town_prefix")){
+            if(Town.isPlayer(player.getName())){
+                return Town.getTownByPlayer(player.getName()).getPrefix();
+            }else{
+                return "[自由人]";
+            }
         }
 
         return null; // Placeholder is unknown by the Expansion
