@@ -13,13 +13,15 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 
-public class Utils {
+public class Util {
     public static double[] stringToLocation(String s){
         double[] xyz = new double[3];
-        String[] ss=s.split(",");
-        xyz[0]=Double.parseDouble(ss[0]);
-        xyz[1]=Double.parseDouble(ss[1]);
-        xyz[2]=Double.parseDouble(ss[2]);
+        if(s!=null){
+            String[] ss=s.split(",");
+            xyz[0]=Double.parseDouble(ss[0]);
+            xyz[1]=Double.parseDouble(ss[1]);
+            xyz[2]=Double.parseDouble(ss[2]);
+        }
         return xyz;
     }
 
@@ -196,7 +198,7 @@ public class Utils {
      * @since 3.4.0
      */
     public static String stripColor(String str) {
-        return ChatColor.stripColor(Utils.replaceChatColor(str));
+        return ChatColor.stripColor(Util.replaceChatColor(str));
     }
 
 

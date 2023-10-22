@@ -5,6 +5,9 @@ import org.bukkit.Location;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
+
+import static org.bukkit.Bukkit.getLogger;
 
 public class Town {
     private List<String> citizens=new ArrayList<String>();
@@ -27,7 +30,7 @@ public class Town {
         this.displayName=displayName;
         this.name=name;
         this.point=BaseConstants.DEFAULT_LOCATION;
-        System.out.println(point);
+        getLogger().info(point.toString());
         citizens.add(leaderName);
         Swustmctown.towns.add(this);
     }

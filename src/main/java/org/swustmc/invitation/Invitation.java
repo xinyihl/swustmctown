@@ -1,5 +1,6 @@
 package org.swustmc.invitation;
 
+import org.bukkit.Bukkit;
 import org.swustmc.Swustmctown;
 import org.swustmc.Town;
 
@@ -26,7 +27,7 @@ public class Invitation {
         for(Invitation inv:Swustmctown.invatations){
             if(inv.getInvitor().getName().equalsIgnoreCase(responsor)){
                 has=true;
-                System.out.println("已经拥有");
+                Bukkit.getLogger().info("已经拥有");
             }
         }
         if(!has){
